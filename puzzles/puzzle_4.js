@@ -1,15 +1,15 @@
 const { setup } = require("./setup");
 
 const puzzleCode = [
-  '6000',
-  '35',
-  '38',
-  '18',
-  '56',
-  '6000',
-  '6000',
-  '6000',
-  '5b',
+  '6000', // PUSH1 00
+  '35',   // CALLDATALOAD
+  '38',   // CODESIZE
+  '18',   // XOR
+  '56',   // JUMP
+  'fdfd', // REVERT REVERT
+  'fdfd', // REVERT REVERT
+  'fdfd', // REVERT REVERT
+  '5b',   // JUMPDEST
 ].join('')
 
 // Enter your solution here
