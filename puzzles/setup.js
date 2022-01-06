@@ -1,4 +1,4 @@
-async function setup(puzzleCode, data) {
+async function setup(puzzleCode, { data, value }) {
   const [s] = await ethers.getSigners();
 
   const address = "0xffffffffffffffffffffffffffffffffffffffff";
@@ -12,6 +12,7 @@ async function setup(puzzleCode, data) {
       to: address,
       data,
       gasLimit: 1_000_000,
+      value,
     });
 
     console.log('Puzzle solved!');

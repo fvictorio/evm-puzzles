@@ -10,6 +10,9 @@ const puzzleCode = [
 ].join('')
 
 // Enter your solution here
-const data = ""
+const solution = {
+  data: "0x",
+  value: 0
+}
 
-setup(puzzleCode, data)
+setup(puzzleCode, solution)

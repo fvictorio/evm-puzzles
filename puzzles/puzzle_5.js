@@ -1,13 +1,13 @@
 const { setup } = require("./setup");
 
 const puzzleCode = [
-  '36',   // CALLDATASIZE
-  '38',   // CODESIZE
-  '03',   // SUB
-  '56',   // JUMP
-  'fdfd', // REVERT REVERT
-  'fdfd', // REVERT REVERT
-  '5b',   // JUMPDEST
+  '34',     // CALLVALUE
+  '610004', // PUSH2 0004
+  '01',     // ADD
+  '56',     // JUMP
+  'fdfd',   // REVERT REVERT
+  'fdfd',   // REVERT REVERT
+  '5b',     // JUMPDEST
 ].join('')
 
 // Enter your solution here
