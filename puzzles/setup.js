@@ -1,4 +1,4 @@
-async function setup(puzzleCode, data, value) {
+async function setup(puzzleCode, { data, value }) {
   const [s] = await ethers.getSigners();
 
   const address = "0xffffffffffffffffffffffffffffffffffffffff";

@@ -9,9 +9,10 @@ const puzzleCode = [
   '5b',   // JUMPDEST
 ].join('')
 
-const value = 0
-
 // Enter your solution here
-const data = ""
+const solution = {
+  data: "0x",
+  value: 0
+}
 
-setup(puzzleCode, data, value)
+setup(puzzleCode, solution)
