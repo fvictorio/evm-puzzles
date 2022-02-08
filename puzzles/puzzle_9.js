@@ -1,14 +1,14 @@
 const { setup } = require("./setup");
 
 const puzzleCode = [
-  '36', 	// CALLDATASIZE
-  '15', 	// ISZERO
-  '6055',   	// PUSH1 55
-  '57',   	// JUMPI
-  '36', 	// CALLDATASIZE
-  '6000', 	// PUSH1 00 
-  '80', 	// DUP1
-  '37', 	// CALLDATACOPY
+  '36', 	      // CALLDATASIZE
+  '15', 	      // ISZERO
+  '6055',   	  // PUSH1 55
+  '57',   	    // JUMPI
+  '36', 	      // CALLDATASIZE
+  '6000', 	    // PUSH1 00 
+  '80', 	      // DUP1
+  '37', 	      // CALLDATACOPY
   '36',         // CALLDATASIZE
   '6000',       // PUSH1 00
   '36',         // CALLDATASIZE
