@@ -1,10 +1,34 @@
 const { setup } = require("./setup");
 
 const puzzleCode = [
+  '6001',       // PUSH1 01
+  '6000',       // PUSH1 00
+  '54',         // SLOAD
+  '14',         // EQ
+  '15',         // ISZERO
+  '6015',       // PUSH1 0x15 (21)
+  '57',         // JUMPI
   '36',         // CALLDATASIZE
   '15',         // ISZERO
-  '6055',       // PUSH1 55
+  '34',         // CALLVALUE
+  '6000',       // PUSH1 00
+  '14',         // EQ
+  '15',         // ISZERO
+  '16',         // AND
+  '6075',       // PUSH1 0x75 (117)
   '57',         // JUMPI
+  '5B',         // JUMPDEST
+  '34',         // CALLVALUE
+  '6000',       // PUSH1 00
+  '14',         // EQ
+  '15',         // ISZERO
+  '601F',       // PUSH1 0x1F (31)
+  '57',         // JUMPI
+  'FD',         // REVERT
+  '5B',         // JUMPDEST
+  '6001',       // PUSH1 01
+  '6000',       // PUSH1 00
+  '55',         // SSTORE
   '36',         // CALLDATASIZE
   '6000',       // PUSH1 00 
   '80',         // DUP1
@@ -15,12 +39,12 @@ const puzzleCode = [
   '34',         // CALLVALUE
   '81',         // DUP2
   '52',         // MSTORE
-  '601b',       // PUSH1 1b
+  '603B',       // PUSH1 0x3B (59)
   '81',         // DUP2
   '6020',       // PUSH1 20
   '01',         // ADD
   '52',         // MSTORE
-  '6044',       // PUSH1 44
+  '6064',       // PUSH1 0x64 (100)
   '56',         // JUMP
   '5B',         // JUMPDEST
   '90',         // SWAP1
@@ -31,12 +55,12 @@ const puzzleCode = [
   '81',         // DUP2
   '36',         // CALLDATASIZE
   '52',         // MSTORE
-  '602e',       // PUSH1 2e
+  '604E',       // PUSH1 0x4E (78)
   '36',         // CALLDATASIZE
   '6020',       // PUSH1 20
   '01',         // ADD
   '52',         // MSTORE
-  '6044',       // PUSH1 44
+  '6064',       // PUSH1 0x64 (100)
   '56',         // JUMP
   '5B',         // JUMPDEST
   '01',         // ADD
@@ -55,7 +79,7 @@ const puzzleCode = [
   '50',         // POP
   '47',         // SELFBALANCE
   '14',         // EQ
-  '6055',       // PUSH1 55
+  '6075',       // PUSH1 0x75 (117)
   '57',         // JUMPI
   'FD',         // REVERT
   '5B',         // JUMPDEST
@@ -80,7 +104,7 @@ const puzzleCode = [
 // Enter your solution here
 const solution = {
   data: "0x",
-  value: 0
+  value: 0 
 }
 
 setup(puzzleCode, solution)
