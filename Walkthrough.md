@@ -1,13 +1,13 @@
 # EVM-Puzzles-Walkthrough
 
 
-[EVM-Puzzles](https://github.com/fvictorio/evm-puzzles) is a collection of challenges that will help you to better understand the Ethereum Virtual Machine.  Each puzzle starts out by giving you a series of opcodes and prompts you to input the correct transaction value or calldata that will allow the sequence to run without reverting. This walkthrough aims to be a low impact guide for each puzzle, making it easy for anyone with any experience level to fully understand the why and the how behind each solution. This walkthrough will assume that you are familiar with stack machines. If not, take a look at [how stack machines work](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) before starting. Its helpful to know that each element on the stack in the EVM is 32 byes (ie. one word). In this repo, there are 10 puzzles. For someone with no experience with the EVM, this should take about 1-2 hours. For someone with basic EVM experience, this should take about 1 hour. If you are very comfortable with the EVM but you still want to go through the walkthrough, this should take somewhere around 30 minutes. With that note, we are ready to get started!
+[EVM-Puzzles](https://github.com/fvictorio/evm-puzzles) is a collection of challenges that will help you to better understand the Ethereum Virtual Machine.  Each puzzle starts out by giving you a series of opcodes and prompts you to input the correct transaction value or calldata that will allow the sequence to run without reverting. This walkthrough aims to be a low impact guide for each puzzle, making it easy for anyone with any experience level to fully understand the why and the how behind each solution. This walkthrough will assume that you are familiar with stack machines. If not, take a look at [how stack machines work](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) before starting. It's helpful to know that each element on the stack in the EVM is 32 byes (ie. one word). In this repo, there are 10 puzzles. For someone with no experience with the EVM, this should take about 1-2 hours. For someone with basic EVM experience, this should take about 1 hour. If you are very comfortable with the EVM but you still want to go through the walkthrough, this should take somewhere around 30 minutes. With that note, we are ready to get started!
 
 First, head over to the [EVM-Puzzles repo](https://github.com/fvictorio/evm-puzzles), clone the project and set up your local environment. Make sure you have hardhat installed. If you don’t, you can simply enter `npm install --save-dev hardhat` when you are in the root project folder.
 
 Next, if you are newer to the EVM, take a brief look at the [EVM opcodes](https://www.evm.codes/) (don’t feel the need to understand everything, just get the general idea).
 
-With all of that out of the way, let’s check out the first puzzle. To start the first puzzle, cd into the root directory of the project and enter `npx hardhat play` into the terminal.
+With all of that out of the way, let’s check out the first puzzle. To start the first puzzle, `cd` into the root directory of the project and enter `npx hardhat play` into the terminal.
 
 <br>
 
@@ -52,7 +52,7 @@ After the `CALLVALUE` opcode is evaluated, the stack would look like this.
 
 ```
 
-Next, we need to know what the [JUMP](https://www.evm.codes/#56) instruction does. This opcode consumes the top value on the stack and jumps to the `n`th instruction in the sequence where `n` is the value at the top of the stack. A quick example will make this more clear.  Lets say we have the following sequence.
+Next, we need to know what the [JUMP](https://www.evm.codes/#56) instruction does. This opcode consumes the top value on the stack and jumps to the `n`th instruction in the sequence where `n` is the value at the top of the stack. A quick example will make this more clear.  Let's say we have the following sequence.
 
 ```js
 
@@ -83,7 +83,7 @@ Then the `JUMP` opcode consumes the top value on the stack and jumps to the inst
 06      00      STOP
 ```
 
-Now that all of that is clear, lets get back to the puzzle. We need to enter a value so that the program runs without hitting a `REVERT` instruction.
+Now that all of that is clear, let's get back to the puzzle. We need to enter a value so that the program runs without hitting a `REVERT` instruction.
 
 ```js
 
@@ -100,13 +100,13 @@ Now that all of that is clear, lets get back to the puzzle. We need to enter a v
 
 ```
 
-To do this, we can enter a call value of 8, which causes the `CALLVALUE` instruction to push `8` onto the stack where the `JUMP` instruction then consumes that value and jumps to the 8th instruction, skipping all of the `REVERT` instructions. Nice work, one puzzle down!
+To do this, we can enter a call value of 8, which causes the `CALLVALUE` instruction to push `8` onto the stack where the `JUMP` instruction then consumes that value and jumps to the 8th instruction, skipping all the `REVERT` instructions. Nice work, one puzzle down!
 
 <br>
 
 # Puzzle 2
 
-Now that you have your feet wet, lets take a look at the second puzzle. Give it a shot on your own and just like before, feel free to come back to check out the solution as well as the explanation. Here is the puzzle.
+Now that you have your feet wet, let's take a look at the second puzzle. Give it a shot on your own and just like before, feel free to come back to check out the solution as well as the explanation. Here is the puzzle.
 
 ```js
 
@@ -131,7 +131,7 @@ Now that you have your feet wet, lets take a look at the second puzzle. Give it 
 
 Just like before, we need to enter a transaction value to send that will cause the program to run without reverting. If we take a look at the sequence of instructions, we can see that we need the `JUMP` opcode to alter the program counter to the 6th instruction. Just like before, the first instruction is `CALLVALUE`, so we know that the value we enter will end up on the top of the stack after the first instruction.
 
-Lets take a look at the [CODESIZE instruction](https://www.evm.codes/#38). This opcode gets the size of the code running in the current environment. In this example, we can manually check the size of the code by looking at how many opcodes there are in the sequence. Each opcode is 1 byte, and in this puzzle we have 10 opcodes meaning that the size of the code is 10 bytes. As an important side note, the EVM uses hex numbers to represent byte code. If you are unfamiliar, check out [how hex numbers](https://simple.wikipedia.org/wiki/Hexadecimal) work. With this in mind, we can know that `0a` gets pushed to the stack, representing 10 bytes.
+Let's take a look at the [CODESIZE instruction](https://www.evm.codes/#38). This opcode gets the size of the code running in the current environment. In this example, we can manually check the size of the code by looking at how many opcodes there are in the sequence. Each opcode is 1 byte, and in this puzzle we have 10 opcodes meaning that the size of the code is 10 bytes. As an important side note, the EVM uses hex numbers to represent byte code. If you are unfamiliar, check out [how hex numbers](https://simple.wikipedia.org/wiki/Hexadecimal) work. With this in mind, we can know that `0a` gets pushed to the stack, representing 10 bytes.
 
 The next opcode we come across is the [SUB instruction](https://www.evm.codes/#03), which takes the first stack element minus the second stack element, pushing the result on the top of the stack. Both inputs at the top of the stack before the `SUB` instruction are consumed. For example if we had a stack that looked like this.
 
@@ -159,7 +159,7 @@ Since we know the `SUB` instruction is next, we need to enter a value such that 
 
 # Puzzle 3
 
-Get ready to switch gears a little. Instead of entering a transaction value to solve the puzzle, we are going to have to enter calldata. Calldata is a read-only byte-addressable space where the transaction data during a message or call is held. In plain english, this is byte code payload that is attached to a message ([click here to learn more about the anatomy of a transaction in Ethereum](https://ethereum.org/en/developers/docs/transactions/)).
+Get ready to switch gears a little. Instead of entering a transaction value to solve the puzzle, we are going to have to enter calldata. Calldata is a read-only byte-addressable space where the transaction data during a message or call is held. In plain English, this is byte code payload that is attached to a message ([click here to learn more about the anatomy of a transaction in Ethereum](https://ethereum.org/en/developers/docs/transactions/)).
 
 Let’s take a look at the puzzle.
 
@@ -211,7 +211,7 @@ Enter bitwise. In this puzzle we see our first `XOR` instruction. As usual, feel
 
 ```
 
-We know that `CALLVALUE` will push the value we enter onto the top of the stack. Also we can know how big the `CODESIZE` is by taking a look at how many instructions there are. In this program, we have 12 instructions, which makes 12 bytes or `0c` in hexadecmial, which gets pushed to the stack. So now our stack looks like this.
+We know that `CALLVALUE` will push the value we enter onto the top of the stack. Also, we can know how big the `CODESIZE` is by taking a look at how many instructions there are. In this program, we have 12 instructions, which makes 12 bytes or `0c` in hexadecimal, which gets pushed to the stack. So now our stack looks like this.
 
 
 ```js
@@ -296,13 +296,13 @@ Coming back to our puzzle, since the next instruction is `PUSH2 0100`, our resul
 
 Now we encounter the [EQ instruction](https://www.evm.codes/#14). This instruction takes the first two values on the stack, runs an equality comparison and pushes the result on the top of the stack. If the first two values are equal, `1` is pushed to the top, otherwise `0` is pushed to the stack instead. Both values at positions 1 and 2 on the stack are consumed from the `EQ` instruction.
 
-For simplicity sake, let’s say that the `mul_result` is `0100` so when the `EQ` instruction is evaluated, `1` is pushed to the stack, making our stack now look like this.
+For simplicity's sake, let’s say that the `mul_result` is `0100` so when the `EQ` instruction is evaluated, `1` is pushed to the stack, making our stack now look like this.
 
 ```js
 [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 ```
 
-The next instruction that is evaluated is `PUSH1 0C` which pushes `0c` to the top of the stack. Following this instruction, we see yet another new instruction. The [JUMPI instruction](https://www.evm.codes/#57) will conditionally alter the program counter. This instruction looks at the the second stack element to know if it should jump or not, depending on if the second stack element is a `1` or a `0`. Then the first stack element is used to know what position to jump to. The `JUMPI` instruction consumes both values at the top of the stack during this process. So taking a look at our puzzle, after the `PUSH1 0c` instruction, our stack looks like this.
+The next instruction that is evaluated is `PUSH1 0C` which pushes `0c` to the top of the stack. Following this instruction, we see yet another new instruction. The [JUMPI instruction](https://www.evm.codes/#57) will conditionally alter the program counter. This instruction looks at the second stack element to know if it should jump or not, depending on if the second stack element is a `1` or a `0`. Then the first stack element is used to know what position to jump to. The `JUMPI` instruction consumes both values at the top of the stack during this process. So taking a look at our puzzle, after the `PUSH1 0c` instruction, our stack looks like this.
 
 ```js
 [0c 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
@@ -340,7 +340,7 @@ Ok now for the final steps. We can convert `0100` into a decimal number and get 
 ? Enter the calldata: 
 ```
 
-Say hello to the [CALLDATALOAD instruction](https://www.evm.codes/#35). This instruction gets the input data from the calldata attached to a transaction. There are a few important things to note about this opcode.  `CALLDATALOAD` expects an integer at the top of the stack to know what byte to start loading the calldata from. For example, if you send a transaction with a 32 byte sequence as calldata and you push `08` to the top of the stack, when you execute `CALLDATALOAD`, the all of the calldata from byte 8 to byte 32 will be pushed onto the top of the stack. As an additional note, if the calldata is 64 bytes and you need to access the second 32 byes of the sequence, you can push `20` onto the stack and then use `CALLDATALOAD` to get the second 32 byes of the sequence.
+Say hello to the [CALLDATALOAD instruction](https://www.evm.codes/#35). This instruction gets the input data from the calldata attached to a transaction. There are a few important things to note about this opcode.  `CALLDATALOAD` expects an integer at the top of the stack to know what byte to start loading the calldata from. For example, if you send a transaction with a 32 byte sequence as calldata and you push `08` to the top of the stack, when you execute `CALLDATALOAD`, all the calldata from byte 8 to byte 32 will be pushed onto the top of the stack. As an additional note, if the calldata is 64 bytes and you need to access the second 32 byes of the sequence, you can push `20` onto the stack and then use `CALLDATALOAD` to get the second 32 byes of the sequence.
 
 Now back to the puzzle. We can see that there is `PUSH1 00` followed by `CALLDATALOAD` meaning that the calldata will be loaded in starting from byte 0 and bytes 0-32 of the calldata will be pushed onto the top of the stack. We can see that the `JUMP` instruction needs to alter the program counter to `0a` (ie. the 10th instruction). Feel free to stop here and try to solve the rest of the puzzle. 
 
@@ -466,13 +466,13 @@ STOP
 
 When this code is run, it returns a value of `ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff` which is 32 bytes. If we change the return size to 16 bytes instead of 32 bytes, the `EXTCODESIZE` will be `10` which is 16 bytes in hexadecimal. This indicates that `EXTCODESIZE` uses the size of the return value to dictate the code size. 
 
-Lets finish the puzzle. Now we know that the `EXTCODESIZE` evaluates the size of the return value from the deployed bytecode. With this information, we can pass in calldata such that when it is deployed, it returns a 1 byte value! You can use any sequence of opcodes that returns 1 byte, but for this walkthrough, we will use `0x60016000526001601ff3`. And with that, another puzzle solved!
+Let's finish the puzzle. Now we know that the `EXTCODESIZE` evaluates the size of the return value from the deployed bytecode. With this information, we can pass in calldata such that when it is deployed, it returns a 1 byte value! You can use any sequence of opcodes that returns 1 byte, but for this walkthrough, we will use `0x60016000526001601ff3`. And with that, another puzzle solved!
 
 <br>
 
 # Puzzle 8
 
-Welcome to the eigth puzzle. Lets take a look at what is in store.
+Welcome to the eighth puzzle. Let's take a look at what is in store.
 
 ```js
 ############
@@ -506,7 +506,7 @@ Welcome to the eigth puzzle. Lets take a look at what is in store.
 ? Enter the calldata:
 ```
 
-This one might look more daunting but it is actually pretty simple. First we see a very similar `CALLDATASIZE PUSH1 00 DUP1 CALLDATACOPY CALLDATASIZE PUSH1 00 PUSH1 00 CREATE` which, just like the previous puzzle, creates a new contract from the calldata that you pass in and returns the deployment address. So right from the start, we know that we will have to enter calldata with bytecode for a contract to solve the puzzle. Lets take a quick mental note of what the stack looks like at this point. Since the `CREATE` instruction consumes the top three stack values and pushes the address that the account was deployed to, our stack now looks like this.
+This one might look more daunting, but it is actually pretty simple. First we see a very similar `CALLDATASIZE PUSH1 00 DUP1 CALLDATACOPY CALLDATASIZE PUSH1 00 PUSH1 00 CREATE` which, just like the previous puzzle, creates a new contract from the calldata that you pass in and returns the deployment address. So right from the start, we know that we will have to enter calldata with bytecode for a contract to solve the puzzle. Let's take a quick mental note of what the stack looks like at this point. Since the `CREATE` instruction consumes the top three stack values and pushes the address that the account was deployed to, our stack now looks like this.
 
 
 ```js
@@ -514,8 +514,8 @@ This one might look more daunting but it is actually pretty simple. First we see
 ```
 
 
-The next 5 instructions all relate to the [CALL instruction](https://www.evm.codes/#f1). This instruction creates a new sub context and execute the code of the given account, then resumes the current one. In plain english, the `CALL` instruction is used to interact with another contract. This opcode expects the stack to have a few values a the top of the stack
-`[gas address value argsOffset argsSize retOffset retSize]`, in this order. Lets walk through each of the arguments one by one. `gas` is the amount of gas that will be sent with the message call. `address` is the address that the message will be sent to. `value` is the amount of wei that will be sent with the message. `argsOffset` is the location in memory within the current context (ie. the msg.sender) that will be used as calldata for the message call. `argsSize` is the size of the calldata to send with the message call. `retOffset` is the location in memory within the current context where the return value from the call will be stored. Finally, `retSize` is the size of the return value that will be stored in memory. 
+The next 5 instructions all relate to the [CALL instruction](https://www.evm.codes/#f1). This instruction creates a new sub context and execute the code of the given account, then resumes the current one. In plain English, the `CALL` instruction is used to interact with another contract. This opcode expects the stack to have a few values at the top of the stack
+`[gas address value argsOffset argsSize retOffset retSize]`, in this order. Let's walk through each of the arguments one by one. `gas` is the amount of gas that will be sent with the message call. `address` is the address that the message will be sent to. `value` is the amount of wei that will be sent with the message. `argsOffset` is the location in memory within the current context (ie. the msg.sender) that will be used as calldata for the message call. `argsSize` is the size of the calldata to send with the message call. `retOffset` is the location in memory within the current context where the return value from the call will be stored. Finally, `retSize` is the size of the return value that will be stored in memory. 
 
 Now let's take a look at the puzzle again. The next four opcodes are `PUSH1 00 DUP1 DUP1 DUP1 DUP1`, which makes the stack look like this.
 
@@ -536,7 +536,7 @@ Then we execute the `CALL` instruction, which returns `0` if the sub context rev
 
 Ok, so now we know that the `CALL` instruction needs to return `0` which means we need to enter calldata that causes `CALL` to fail. To get `CALL` to fail, there are three ways. One way it can fail is if there is not enough gas. The second way it can fail is if there are not enough values on the stack. The third way it can fail is if the current execution context is from a [STATICCALL](https://www.evm.codes/#fa) and the value in wei (stack index 2) is not 0 (since Byzantium fork). It is also important to note that `CALL` will always succeed as true when you `CALL` an account with no code (or codesize of 0). 
 
-To finish this puzzle, let's refer back to how the `CREATE` opcode works. We know that the return value of the bytecode that is run on deployment becomes the bytecode for the newly created contract. With that information known, we can pass in calldata with a bytecode sequenece such that the return value of the sequenece causes a `REVERT` when run. 
+To finish this puzzle, let's refer back to how the `CREATE` opcode works. We know that the return value of the bytecode that is run on deployment becomes the bytecode for the newly created contract. With that information known, we can pass in calldata with a bytecode sequence such that the return value of the sequence causes a `REVERT` when run. 
 
 You can pass in any that will result in a `REVERT` but for the walkthrough we will use [0x60016000526001601ff3](https://www.evm.codes/playground?callValue=0&unit=Wei&codeType=Bytecode&code='60016000526001601ff3'_) as the deployment bytecode. Since the return value of this bytecode sequence is `01`, the newly created contract's code will be `01` ie. the `ADD` instruction. So when you call this contract, it will execute the `ADD` instruction, and since there are no values on the stack in the subcontext of the contract, the `CALL` will fail (ie. `REVERT`)! There you go, `0x60016000526001601ff3` is our answer!
 
@@ -574,7 +574,7 @@ We are in the home stretch, let's take a look at puzzle #9. This puzzle adds one
 
 ```
 
-We are already familiar with the first two opcodes so we can know that after the `CALLDATASIZE PUSH1 03` instructions, our stack looks like this.
+We are already familiar with the first two opcodes, so we can know that after the `CALLDATASIZE PUSH1 03` instructions, our stack looks like this.
 
 ```js
 [03 calldata_size 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
@@ -640,6 +640,6 @@ Now we see `CALLDATASIZE PUSH2 0003 SWAP1` which pushes the calldata size as wel
 [calldata_size 3 0 0 0 0 0 0 0 0 0 0 0 0 0]
 ```
 
-Next we see the [MOD instruction](https://www.evm.codes/#06). This instruction runs a modulo of the first stack element and the second stack element, pushing the remainder onto the stack. Following the `MOD` instruction we the [ISZERO instruction](https://www.evm.codes/#15), which pushes `1` onto the stack if the top value on the stack is `0`. If any other number is on the top of the stack, `0` is pushed to the stack instead. In our case, we need `ISZERO` to push `1` to the stack (we will come back to this). We then see `CALLVALUE PUSH1 0A ADD`. The [ADD instruction](https://www.evm.codes/#01) simply adds the first two values on the stack and pushes the result to the stack. Following this sequence, there is a `JUMPI`, meaning that `CALLVALUE PUSH1 0A ADD` needs to push the position of the `JUMPDEST` onto the stack. Feel free to give the rest of the puzzle a shot from here.
+Next we see the [MOD instruction](https://www.evm.codes/#06). This instruction runs a modulo of the first stack element and the second stack element, pushing the remainder onto the stack. Following the `MOD` instruction we see the [ISZERO instruction](https://www.evm.codes/#15), which pushes `1` onto the stack if the top value on the stack is `0`. If any other number is on the top of the stack, `0` is pushed to the stack instead. In our case, we need `ISZERO` to push `1` to the stack (we will come back to this). We then see `CALLVALUE PUSH1 0A ADD`. The [ADD instruction](https://www.evm.codes/#01) simply adds the first two values on the stack and pushes the result to the stack. Following this sequence, there is a `JUMPI`, meaning that `CALLVALUE PUSH1 0A ADD` needs to push the position of the `JUMPDEST` onto the stack. Feel free to give the rest of the puzzle a shot from here.
 
 With all this information, we now know a few things. First, we need to enter calldata such that the size of the calldata is divisible by 3 bytes, enabling the `CALLDATASIZE PUSH2 0003 SWAP1 MOD` sequence to push `0` onto the stack. This allows `ISZERO` to push a `1` to the stack, where the program can then jump to the second `JUMPDEST`. Second, we need to enter a callvalue such that the value is less than 26 and `callvalue + 0a` equals `0x19`. With these factors known, we can enter `0x000001` as calldata and `15` (in decimal) as the callvalue. Just like that, we have completed the final puzzle!
