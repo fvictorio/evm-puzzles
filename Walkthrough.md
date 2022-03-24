@@ -11,7 +11,7 @@ With all of that out of the way, let’s check out the first puzzle. To start th
 
 <br>
 
-# Puzzle #1
+# Puzzle 1
 
 Let’s take a look at the first puzzle. You are given a series of opcodes that represent a contract. The puzzle prompts you to enter a value to send, or in other words if you sent a transaction to this contract, what would the transaction value need to be for this contract to run without hitting the [REVERT instruction](https://www.evm.codes/#fd)?  Go ahead and give it a shot and then feel free to come back here if you get stuck or want an in depth look at the solution after solving the puzzle.
 
@@ -104,7 +104,7 @@ To do this, we can enter a call value of 8, which causes the `CALLVALUE` instruc
 
 <br>
 
-# Puzzle #2
+# Puzzle 2
 
 Now that you have your feet wet, lets take a look at the second puzzle. Give it a shot on your own and just like before, feel free to come back to check out the solution as well as the explanation. Here is the puzzle.
 
@@ -157,7 +157,7 @@ Since we know the `SUB` instruction is next, we need to enter a value such that 
 
 <br>
 
-# Puzzle #3
+# Puzzle 3
 
 Get ready to switch gears a little. Instead of entering a transaction value to solve the puzzle, we are going to have to enter calldata. Calldata is a read-only byte-addressable space where the transaction data during a message or call is held. In plain english, this is byte code payload that is attached to a message ([click here to learn more about the anatomy of a transaction in Ethereum](https://ethereum.org/en/developers/docs/transactions/)).
 
@@ -184,7 +184,7 @@ With that knowledge, this makes the puzzle pretty straightforward. We will need 
 
 <br>
 
-# Puzzle #4
+# Puzzle 4
 
 Enter bitwise. In this puzzle we see our first `XOR` instruction. As usual, feel free to give it a shot and figure it out on your own. When you’re ready, head back here for the solution and explanation.
 
@@ -246,7 +246,7 @@ Ok, now for the final steps. We know that we need the result of `XOR` to be `10`
 
 <br>
 
-# Puzzle #5
+# Puzzle 5
 
 Welcome to the next puzzle, where we are met with a few new opcodes. Feel free to give it a shot. In the meantime, let’s take a look at the sequence of instructions for this puzzle.
 
@@ -316,7 +316,7 @@ Ok now for the final steps. We can convert `0100` into a decimal number and get 
 
 <br>
 
-# Puzzle #6
+# Puzzle 6
 
 5 puzzles down, 5 to go! As usual, give the puzzle a try, then feel free to come back here for the solution and explanation. 
 
@@ -348,7 +348,7 @@ Ok let’s go over the final steps. We know that calldata is in hexadecimal, so 
 
 <br>
 
-# Puzzle #7
+# Puzzle 7
 
 You know the drill. Give the puzzle a shot and then come back to see the full solution / explanation.
 
@@ -470,7 +470,7 @@ Lets finish the puzzle. Now we know that the `EXTCODESIZE` evaluates the size of
 
 <br>
 
-# Puzzle #8
+# Puzzle 8
 
 Welcome to the eigth puzzle. Lets take a look at what is in store.
 
@@ -543,7 +543,7 @@ You can pass in any that will result in a `REVERT` but for the walkthrough we wi
 
 <br>
 
-# Puzzle #9
+# Puzzle 9
 We are in the home stretch, let's take a look at puzzle #9. This puzzle adds one more layer of complexity, requiring you to enter both a callvalue and calldata to solve the puzzle.
 
 ```js
@@ -590,7 +590,7 @@ With some quick math, we can use any combination of values that evaluate to 8 wh
 
 <br>
 
-# Puzzle #10
+# Puzzle 10
 Here it is, the final puzzle. Let's jump in.
 
 ```js
