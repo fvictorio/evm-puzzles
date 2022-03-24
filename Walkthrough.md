@@ -11,7 +11,7 @@ With all of that out of the way, let’s check out the first puzzle. To start th
 
 <br>
 
-# Puzzle 1
+# Puzzle #1
 
 Let’s take a look at the first puzzle. You are given a series of opcodes that represent a contract. The puzzle prompts you to enter a value to send, or in other words if you sent a transaction to this contract, what would the transaction value need to be for this contract to run without hitting the [REVERT instruction](https://www.evm.codes/#fd)?  Go ahead and give it a shot and then feel free to come back here if you get stuck or want an in depth look at the solution after solving the puzzle.
 
@@ -104,7 +104,7 @@ To do this, we can enter a call value of 8, which causes the `CALLVALUE` instruc
 
 <br>
 
-# Puzzle 2
+# Puzzle #2
 
 Now that you have your feet wet, lets take a look at the second puzzle. Give it a shot on your own and just like before, feel free to come back to check out the solution as well as the explanation. Here is the puzzle.
 
@@ -157,7 +157,7 @@ Since we know the `SUB` instruction is next, we need to enter a value such that 
 
 <br>
 
-# Puzzle 3
+# Puzzle #3
 
 Get ready to switch gears a little. Instead of entering a transaction value to solve the puzzle, we are going to have to enter calldata. Calldata is a read-only byte-addressable space where the transaction data during a message or call is held. In plain english, this is byte code payload that is attached to a message ([click here to learn more about the anatomy of a transaction in Ethereum](https://ethereum.org/en/developers/docs/transactions/)).
 
@@ -184,7 +184,7 @@ With that knowledge, this makes the puzzle pretty straightforward. We will need 
 
 <br>
 
-# Puzzle 4
+# Puzzle #4
 
 Enter bitwise. In this puzzle we see our first `XOR` instruction. As usual, feel free to give it a shot and figure it out on your own. When you’re ready, head back here for the solution and explanation.
 
@@ -246,7 +246,7 @@ Ok, now for the final steps. We know that we need the result of `XOR` to be `10`
 
 <br>
 
-# Puzzle 5
+# Puzzle #5
 
 Welcome to the next puzzle, where we are met with a few new opcodes. Feel free to give it a shot. In the meantime, let’s take a look at the sequence of instructions for this puzzle.
 
@@ -316,7 +316,7 @@ Ok now for the final steps. We can convert `0100` into a decimal number and get 
 
 <br>
 
-# Puzzle 6
+# Puzzle #6
 
 5 puzzles down, 5 to go! As usual, give the puzzle a try, then feel free to come back here for the solution and explanation. 
 
@@ -348,7 +348,7 @@ Ok let’s go over the final steps. We know that calldata is in hexadecimal, so 
 
 <br>
 
-# Puzzle 7
+# Puzzle #7
 
 You know the drill. Give the puzzle a shot and then come back to see the full solution / explanation.
 
@@ -404,7 +404,13 @@ Immediately after, `CALLDATASIZE` `PUSH1 00` `PUSH1 00` are all executed, making
 [0 0 calldata_size 0 0 0 0 0 0 0 0 0 0 0 0 0]
 ```
 
-Next we are introduced to another new opcode, the [CREATE instruction](https://www.evm.codes/#f0). This instruction creates a new account (ie. Contract or EOA). This instruction expects the following three values on the top of the stack `[value offset size]` in this order. `value` is the amount of wei to send to the new account. `offset` is the slot in memory that holds the data we want to send the new account. `size` is the size of the data, which lets us know how much data to read from memory. When the `CREATE` instruction executes, all three values are consumed and the address that the account was deployed to is pushed to the top of the stack. After this opcode executes, our stack looks like this. 
+Next we are introduced to another new opcode, the [CREATE instruction](https://www.evm.codes/#f0). This instruction creates a new account (ie. Contract or EOA). Let's get a little under the hood with the `CREATE` opcode, as this will come in handy later during the walkthrough (and is generally good to know). 
+
+When deploying a new contract with the `CREATE` opcode, the stack must have `[value offset size]` at the top of the stack, in this order. The `value` is the amount of wei to send the new contract that is being created, the `offset` is the location in memory where the bytecode starts that will run on deployment and `size` is the size of the bytecode that will run on deployment. When you deploy a contract with the `CREATE` opcode, the bytecode from the `offset` is not the new contract's bytecode, but rather the bytecode from the `offset` is executed during deployment and the **return value** becomes the newly created contract's bytecode.   
+
+Let's run through a quick example that will make this easy to understand. If you use the `CREATE` opcode with deployment bytecode of [0x6160016000526002601Ef3](https://www.evm.codes/playground?callValue=0&unit=Wei&codeType=Bytecode&code='6160016000526002601Ef3'_), since the return value of this bytecode sequence is `6001`, the newly created contract's bytecode will be `6001` ie. `PUSH1 01`. So when you call this contract, it will simply execute `PUSH1 01`! Make sure to take note of this concept as it will come in handy later.
+
+When the `CREATE` instruction executes, all three values are consumed and the address that the account was deployed to is pushed to the top of the stack. After this opcode executes, our stack looks like this. 
 
 ```js
 [address_deployed 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
@@ -464,7 +470,7 @@ Lets finish the puzzle. Now we know that the `EXTCODESIZE` evaluates the size of
 
 <br>
 
-# Puzzle 8
+# Puzzle #8
 
 Welcome to the eigth puzzle. Lets take a look at what is in store.
 
@@ -528,11 +534,16 @@ Then we see the [SWAP5 instruction](https://www.evm.codes/#94). This instruction
 Then we execute the `CALL` instruction, which returns `0` if the sub context reverted and `1` if it was a success. After the `CALL` instruction we can see a `PUSH1 00 EQ` meaning that we need `CALL` to push a `0` onto the stack. Go ahead and give the rest of the puzzle a shot, then feel free to come back to see the rest of the solution.
 
 
-Ok, so now we know that the `CALL` instruction needs to return `0` which means we need to enter calldata that causes `CALL` to fail. To get `CALL` to fail, there are three ways. One way it can fail is if there is not enough gas. The second way it can fail is if there are not enough values on the stack. The third way it can fail is if the current execution context is from a [STATICCALL](https://www.evm.codes/#fa) and the value in wei (stack index 2) is not 0 (since Byzantium fork). It is also important to note that `CALL` will always succeed as true when you `CALL` an account with no code (or codesize of 0).
+Ok, so now we know that the `CALL` instruction needs to return `0` which means we need to enter calldata that causes `CALL` to fail. To get `CALL` to fail, there are three ways. One way it can fail is if there is not enough gas. The second way it can fail is if there are not enough values on the stack. The third way it can fail is if the current execution context is from a [STATICCALL](https://www.evm.codes/#fa) and the value in wei (stack index 2) is not 0 (since Byzantium fork). It is also important to note that `CALL` will always succeed as true when you `CALL` an account with no code (or codesize of 0). 
+
+To finish this puzzle, let's refer back to how the `CREATE` opcode works. We know that the return value of the bytecode that is run on deployment becomes the bytecode for the newly created contract. With that information known, we can pass in calldata with a bytecode sequenece such that the return value of the sequenece causes a `REVERT` when run. 
+
+You can pass in any that will result in a `REVERT` but for the walkthrough we will use [0x60016000526001601ff3](https://www.evm.codes/playground?callValue=0&unit=Wei&codeType=Bytecode&code='60016000526001601ff3'_) as the deployment bytecode. Since the return value of this bytecode sequence is `01`, the newly created contract's code will be `01` ie. the `ADD` instruction. So when you call this contract, it will execute the `ADD` instruction, and since there are no values on the stack in the subcontext of the contract, the `CALL` will fail (ie. `REVERT`)! There you go, `0x60016000526001601ff3` is our answer!
+
 
 <br>
 
-# Puzzle 9
+# Puzzle #9
 We are in the home stretch, let's take a look at puzzle #9. This puzzle adds one more layer of complexity, requiring you to enter both a callvalue and calldata to solve the puzzle.
 
 ```js
@@ -579,7 +590,7 @@ With some quick math, we can use any combination of values that evaluate to 8 wh
 
 <br>
 
-# Puzzle 10
+# Puzzle #10
 Here it is, the final puzzle. Let's jump in.
 
 ```js
