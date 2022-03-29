@@ -6,6 +6,7 @@ const chalk = require("chalk");
 const { getOpcode } = require("./opcodes");
 
 module.exports.play = async function play() {
+  let attempts = 0;
   while (true) {
     const puzzle = getNextPuzzle();
 
@@ -17,6 +18,7 @@ module.exports.play = async function play() {
     const solution = await playPuzzle(puzzle);
 
     if (solution) {
+      attempts = 0;
       saveSolution(puzzle.number, solution);
 
       if (await askPlayNext()) {
@@ -25,6 +27,8 @@ module.exports.play = async function play() {
         process.exit(0);
       }
     } else {
+      await checkHints(puzzle, ++attempts); 
+
       if (!(await askTryAgain())) {
         console.log("Thanks for playing!");
         process.exit(0);
@@ -84,6 +88,31 @@ async function askTryAgain() {
   console.log();
 
   return answers.tryAgain;
+}
+
+async function askNeedHint() {
+  const answers = await inquirer.prompt([
+    {
+      type: "confirm",
+      name: "needHint",
+      message: "Would you like a hint?"
+    }
+  ]);
+
+  console.log();
+
+  return answers.needHint;
+}
+
+async function checkHints(puzzle, attempts) {
+  const numHints = puzzle.hints.length;
+  if (numHints > 0 &&
+    puzzle.askNeedHint.includes(attempts) &&
+    await askNeedHint()) {
+      const hintIndex = puzzle.askNeedHint.indexOf(attempts);
+      console.log(`This is hint ${chalk.yellow(`#${hintIndex+1}`)} out of ${chalk.blueBright(numHints)}. Base64 decode the following:\n`);
+      console.log(chalk.green(puzzle.hints[hintIndex]), "\n");
+  }
 }
 
 function printCode(code) {
