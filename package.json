@@ -5,7 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "chalk": "4",
     "ethers": "^5.4.4",
-    "hardhat": "^2.6.0"
+    "fs-extra": "^10.0.1",
+    "hardhat": "^2.6.0",
+    "inquirer": "^8.2.0"
   }
 }
