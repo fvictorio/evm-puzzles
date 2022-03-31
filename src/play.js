@@ -105,7 +105,7 @@ async function askNeedHint() {
 }
 
 async function checkHints(puzzle, attempts) {
-  const numHints = puzzle.hints.length;
+  const numHints = puzzle.hints ? puzzle.hints.length : 0 ;
   if (numHints > 0 &&
     puzzle.askNeedHint.includes(attempts) &&
     await askNeedHint()) {
