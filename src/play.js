@@ -197,7 +197,7 @@ async function runPuzzle(puzzleCode, { data, value }) {
   data = data.startsWith("0x") ? data : `0x${data}`;
 
   const evmCodesUrlData = data === "0x" ? "" : data;
-  const evmCodesUrl = `https://www.evm.codes/playground?callValue=${value}&unit=Wei&callData=${evmCodesUrlData}&codeType=Bytecode&code='${puzzleCode}'_`;
+  const evmCodesUrl = `https://www.evm.codes/playground?callValue=${value}&unit=Wei&callData=${evmCodesUrlData}&codeType=Bytecode&code=%27${puzzleCode}%27_`;
 
   try {
     await s.sendTransaction({
