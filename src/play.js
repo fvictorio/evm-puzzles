@@ -112,7 +112,7 @@ function printCode(code) {
     if (pushSize) {
       const pushArg = code.slice(i + 2, i + 2 + 2 * pushSize);
       opcodeHexItem = { value: opcodeHex + pushArg, color: null };
-      opcodeItem = { value: `${opcode}${pushSize} ${pushArg}`, color: null };
+      opcodeItem = { value: `${opcode}${pushSize} 0x${pushArg}`, color: null };
       i += 2 + 2 * pushSize;
     } else {
       let color = null;
