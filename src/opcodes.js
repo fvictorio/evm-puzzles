@@ -48,7 +48,7 @@ module.exports.getOpcode = function getOpcode(opcodeHex) {
     case "41": return ["COINBASE"];
     case "42": return ["TIMESTAMP"];
     case "43": return ["NUMBER"];
-    case "44": return ["DIFFICULTY"];
+    case "44": return ["PREVRANDAO"];
     case "45": return ["GASLIMIT"];
     case "46": return ["CHAINID"];
     case "47": return ["SELFBALANCE"];
@@ -65,6 +65,7 @@ module.exports.getOpcode = function getOpcode(opcodeHex) {
     case "59": return ["MSIZE"];
     case "5A": return ["GAS"];
     case "5B": return ["JUMPDEST"];
+    case "5F": return ["PUSH", 0];
     case "60": return ["PUSH", 1];
     case "61": return ["PUSH", 2];
     case "62": return ["PUSH", 3];
